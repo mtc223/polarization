@@ -1,6 +1,6 @@
 import serial
 
-ser = serial.Serial("COM11",9600,timeout=1)
+ser = serial.Serial("COM4",9600,timeout=1)
 
 #Initialize the serial com
 def ser_init(com):

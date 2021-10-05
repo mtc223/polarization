@@ -10,50 +10,47 @@ import time
 #ar.turn(motor,angle)
 
 #single motor experiment done with lambda/4, lambda/2, polarizer
-def exp0():
-	data = np.ndarray(shape=(360,1),dtype=float)
-	for m0 in range(data.shape[0]):
-		time.sleep(1.5)
-		data[m0] = ni.read()
-		ar.ser_turn(0,1)
-		print(data[m0])
+def exp0(filename):
+	with open(filename,"w+") as writer:
+		data = np.ndarray(shape=(360,1),dtype=float)
+		for m0 in range(data.shape[0]):
+			time.sleep(1.5)
+			data[m0] = ni.read()
+			ar.ser_turn(0,1)
+			print(m0,data[m0])
+			writer.write(str(data[m0]))
+			writer.write("\n")
 	return data
 
 #double motor experiment
-def exp1():
-	data = np.array((360,360))
-	for m0 in range(359):
-		for m1 in range(359):
-			#turn inner motor 1 degree
-			ar.ser_turn(1,1)
-			data[m0][m1] = ni.read();
-		ar.turn(0,1)
+def exp1(filename):
+	with open(filename,"w+") as writer:
+		data = np.ndarray(shape=(72,72),dtype=float)
+		for m0 in range(data.shape[0]):
+			time.sleep(1.5)
+			ar.ser_turn(0,5)
+			for m1 in range(data.shape[1]):
+				time.sleep(1.5)
+				#turn inner motor 1 degree
+				ar.ser_turn(1,5)
+				data[m0][m1] = ni.read()
+				print(m0,m1,data[m0][m1])
+				writer.write(str(data[m0][m1]))
+				writer.write("\n")
 	return data
 
-def savedata(data, filename):
-	file1 = open(filename,"w+")
-	for line in data:
-		file1.write(str(line[0]))
-		file1.write("\n")
-	file1.close()
-
-def savedata2d(data, filename):
-	file1 = open(filename,"w+")
-	for line in data:
-		for element in line:
-			file1.write(element)
-			file1.write(" ")
-		file1.write("\n")
-	file1.close()
+def graphdata1(filename,title):
+	with open(filename,"r+") as reader:
+		Y = np.ndarray(shape=(360,1),dtype=float)
+		for i in range(360):
+			Y[i] = reader.readline()
+		X = range(Y.shape[0])
+		plt.scatter(X,Y)
+		plt.title(title)
+		plt.show()
 
 
-
-def graphdata(data):
-	# Set up grid and test data
-	nx, ny = 360,360
-	x = range(nx)
-	y = range(ny)
-
+def graphdata2(filename):
 	hf = plt.figure()
 	ha = hf.add_subplot(111, projection='3d')
 
@@ -62,6 +59,8 @@ def graphdata(data):
 
 	plt.show()
 
-savedata(exp0(),"exp0_pol.txt")
+#savedata2d(exp1(),"exp1_pol41.txt")
+graphdata1("exp0_pol.txt","Experiment 1 Polarization Filter")
 #exp0_pt4 Experiment 0 Phase transition lambda/4
 #exp0_pol Experiment 0 Polarization Filter
+#exp1_pol4 Experiment 1 Two motors, Polarization and 

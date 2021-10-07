@@ -44,6 +44,9 @@ def graphdata1(filename,title):
 		for i in range(360):
 			Y[i] = reader.readline()
 		X = range(Y.shape[0])
+		ax = plt.axes()
+		ax.set_xlabel("Polarization Filter Angle")
+		ax.set_ylabel("Power (mW)")
 		plt.scatter(X,Y)
 		plt.title(title)
 		plt.show()
@@ -83,7 +86,10 @@ def graphdata21(filename,title):
 
 	plt.show()
 
-#exp0("exp0_pt4.txt") #Experiment 0 Phase transition lambda/4
-#exp0("exp0_pol.txt") #Experiment 0 Polarization Filter
-#exp1("exp1_pol4.txt") #Experiment 1 Two motors, Polarization and lambda/4
-graphdata2("exp1_pol4.txt","Experiment 3 lambda/4 into Polarization Filter")
+#exp0("exp0_pt4.txt") #Experiment 1 Phase transition lambda/4
+#exp0("exp0_pol.txt") #Experiment 2 Polarization Filter
+#exp1("exp1_pol4.txt") #Experiment 3 Two motors, Polarization and lambda/4
+#exp0("exp0_pol45.txt") #Experiment 4 lambda/4 at 45 and Polarization Filter
+exp1("exp1_pol2.txt") #Experiment 5 Two motors, Polarization and lambda/2
+#graphdata1("exp0_pol45.txt", "Experiment 4 lambda/4 at 45 vs Polarization Filter")
+#graphdata2("exp1_pol4.txt","Experiment 3 lambda/4 into Polarization Filter")

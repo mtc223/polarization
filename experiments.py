@@ -27,16 +27,15 @@ def exp1(filename):
 	with open(filename,"w+") as writer:
 		data = np.ndarray(shape=(72,72),dtype=float)
 		for m0 in range(data.shape[0]):
-			time.sleep(1.5)
-			ar.ser_turn(0,5)
 			for m1 in range(data.shape[1]):
-				time.sleep(1.5)
-				#turn inner motor 1 degree
-				ar.ser_turn(1,5)
 				data[m0][m1] = ni.read()
 				print(m0,m1,data[m0][m1])
 				writer.write(str(data[m0][m1]))
 				writer.write("\n")
+				time.sleep(1.5)
+				ar.ser_turn(1,5)
+			time.sleep(1.5)
+			ar.ser_turn(0,5)	
 	return data
 
 def graphdata1(filename,title):
@@ -50,7 +49,32 @@ def graphdata1(filename,title):
 		plt.show()
 
 
-def graphdata2(filename):
+def graphdata2(filename,title):
+	with open(filename,"r+") as reader:
+		Z = np.ndarray(shape=(72,72),dtype=float)
+		for m0 in range(Z.shape[0]):
+			for m1 in range(Z.shape[1]):
+				Z[m0][m1] = float(reader.readline())
+		X = np.outer(np.linspace(0, 360, 72), np.ones(72))
+		Y = X.copy().T
+		fig = plt.figure()
+		ax = plt.axes(projection = '3d')
+		ax.set_xlabel("Polarization Filter Angle")
+		ax.set_ylabel("Lambda/4 Retarder Angle")
+		ax.set_zlabel("Power (mW)")
+		ax.plot_surface(X,Y,Z, cmap='viridis', edgecolor='green')
+		ax.set_title(title)
+		plt.show()
+
+def graphdata21(filename,title):
+	with open(filename,"r+") as reader:
+		Z = np.ndarray(shape=(72,72),dtype=float)
+		for m0 in range(Z.shape[0]):
+			for m1 in range(Z.shape[1]):
+				Z[m0][m1] = float(reader.readline())
+	plt.scatter(X,Y)
+	plt.title(title)
+	plt.show()
 	hf = plt.figure()
 	ha = hf.add_subplot(111, projection='3d')
 
@@ -59,8 +83,7 @@ def graphdata2(filename):
 
 	plt.show()
 
-#savedata2d(exp1(),"exp1_pol41.txt")
-graphdata1("exp0_pol.txt","Experiment 1 Polarization Filter")
-#exp0_pt4 Experiment 0 Phase transition lambda/4
-#exp0_pol Experiment 0 Polarization Filter
-#exp1_pol4 Experiment 1 Two motors, Polarization and 
+#exp0("exp0_pt4.txt") #Experiment 0 Phase transition lambda/4
+#exp0("exp0_pol.txt") #Experiment 0 Polarization Filter
+#exp1("exp1_pol4.txt") #Experiment 1 Two motors, Polarization and lambda/4
+graphdata2("exp1_pol4.txt","Experiment 3 lambda/4 into Polarization Filter")

@@ -16,7 +16,7 @@ def exp0(filename):
 		for m0 in range(data.shape[0]):
 			time.sleep(1.5)
 			data[m0] = ni.read()
-			ar.ser_turn(0,1)
+			ar.ser_turn(1,1)
 			print(m0,data[m0])
 			writer.write(str(data[m0]))
 			writer.write("\n")
@@ -38,21 +38,22 @@ def exp1(filename):
 			ar.ser_turn(0,5)	
 	return data
 
-def graphdata1(filename,title):
+def graphdata1(filename,exp,xlabel):
 	with open(filename,"r+") as reader:
 		Y = np.ndarray(shape=(360,1),dtype=float)
 		for i in range(360):
 			Y[i] = reader.readline()
 		X = range(Y.shape[0])
 		ax = plt.axes()
-		ax.set_xlabel("Polarization Filter Angle")
+		ax.set_xlabel(xlabel)
 		ax.set_ylabel("Power (mW)")
 		plt.scatter(X,Y)
+		title = "Experiment " + str(exp) + " " + xlabel + "."
 		plt.title(title)
 		plt.show()
 
 
-def graphdata2(filename,title):
+def graphdata2(filename,exp,xlabel,ylabel):
 	with open(filename,"r+") as reader:
 		Z = np.ndarray(shape=(72,72),dtype=float)
 		for m0 in range(Z.shape[0]):
@@ -62,10 +63,11 @@ def graphdata2(filename,title):
 		Y = X.copy().T
 		fig = plt.figure()
 		ax = plt.axes(projection = '3d')
-		ax.set_xlabel("Polarization Filter Angle")
-		ax.set_ylabel("Lambda/4 Retarder Angle")
+		ax.set_xlabel(xlabel)
+		ax.set_ylabel(ylabel)
 		ax.set_zlabel("Power (mW)")
 		ax.plot_surface(X,Y,Z, cmap='viridis', edgecolor='green')
+		title = "Experiment " + str(exp) + " " + xlabel + " vs " +ylabel + "."
 		ax.set_title(title)
 		plt.show()
 
@@ -86,10 +88,34 @@ def graphdata21(filename,title):
 
 	plt.show()
 
-#exp0("exp0_pt4.txt") #Experiment 1 Phase transition lambda/4
-#exp0("exp0_pol.txt") #Experiment 2 Polarization Filter
-#exp1("exp1_pol4.txt") #Experiment 3 Two motors, Polarization and lambda/4
-#exp0("exp0_pol45.txt") #Experiment 4 lambda/4 at 45 and Polarization Filter
-exp1("exp1_pol2.txt") #Experiment 5 Two motors, Polarization and lambda/2
-#graphdata1("exp0_pol45.txt", "Experiment 4 lambda/4 at 45 vs Polarization Filter")
-#graphdata2("exp1_pol4.txt","Experiment 3 lambda/4 into Polarization Filter")
+#Experiment 1 Phase Transition lambda/4
+#exp0("exp0_pt4.txt")
+#graphdata1("exp0_pt4.txt", 1, "Phase Transition lambda/4")
+
+#Experiment 2 Phase Transition lambda/2
+#exp0("exp0_pt2.txt")
+#graphdata1("exp0_pt2.txt", 2, "Phase Transition lambda/2")
+
+#Experiment 3 Polarization Filter
+#exp0("exp0_pol.txt")
+#graphdata1("exp0_pol.txt", 3, "Polarization Filter")
+
+#Experiment 4 lambda/4 at 45 and Polarization Filter
+#exp0("exp0_pol45.txt") 
+#graphdata1("exp0_pol45.txt", 4, "Polarization Filter and lambda/4 @ 45")
+
+#Experiment 5 Polarization Filter vs lambda/4
+#exp1("exp1_pol4.txt")
+#graphdata2("exp1_pol4.txt", 5, "Polarization Filter", "lambda/4")
+
+#Experiment 6 Polarization Filter vs lambda/2
+#exp1("exp1_pol2.txt")
+#graphdata2("exp1_pol2.txt", 6, "Polarization Filter", "lambda/2")
+
+#Experiment 7 lambda/2 vs Polarization Filter
+#exp1("exp1_2pol.txt")
+#graphdata2("exp1_2pol.txt", 7, "lambda/2", "Polarization Filter")
+
+#Experiment 8 lambda/4 vs Polarization Filter
+exp1("exp1_4pol.txt")
+#graphdata2("exp1_4pol.txt", 8, "lambda/4", "Polarization Filter")

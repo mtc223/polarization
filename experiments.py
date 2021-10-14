@@ -117,5 +117,5 @@ def graphdata21(filename,title):
 #graphdata2("exp1_2pol.txt", 7, "lambda/2", "Polarization Filter")
 
 #Experiment 8 lambda/4 vs Polarization Filter
-exp1("exp1_4pol.txt")
-#graphdata2("exp1_4pol.txt", 8, "lambda/4", "Polarization Filter")
+#exp1("exp1_4pol.txt")
+graphdata2("exp1_4pol.txt", 8, "lambda/4", "Polarization Filter")

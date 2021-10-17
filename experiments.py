@@ -1,5 +1,5 @@
-import ardriver as ar
-import nidriver as ni
+#import ardriver as ar
+#import nidriver as ni
 from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.pyplot as plt
 import numpy as np
@@ -112,10 +112,10 @@ def graphdata21(filename,title):
 #exp1("exp1_pol2.txt")
 #graphdata2("exp1_pol2.txt", 6, "Polarization Filter", "lambda/2")
 
+#Experiment 7 lambda/4 vs Polarization Filter
+#exp1("exp1_4pol.txt")
+#graphdata2("exp1_4pol.txt", 7, "Polarization Filter", "lambda/4")
+
 #Experiment 7 lambda/2 vs Polarization Filter
 #exp1("exp1_2pol.txt")
-#graphdata2("exp1_2pol.txt", 7, "lambda/2", "Polarization Filter")
-
-#Experiment 8 lambda/4 vs Polarization Filter
-#exp1("exp1_4pol.txt")
-graphdata2("exp1_4pol.txt", 8, "lambda/4", "Polarization Filter")
+graphdata2("exp1_2pol.txt", 8, "Polarization Filter", "lambda/2")
